@@ -2,6 +2,7 @@ import { withKnobs } from "@storybook/addon-knobs";
 import withGlobalStyles from "./with-global-styles";
 import { withThemeSelector } from "./theme-selector";
 import { configureActions } from "@storybook/addon-actions";
+import I18n from "./i18n";
 import sageTheme from "./sageTheme";
 import "./style/fonts.css";
 import "./style/story-root.css";
@@ -78,4 +79,9 @@ export const parameters = {
   viewport: { viewports: customViewports },
 };
 
-export const decorators = [withKnobs, withGlobalStyles, withThemeSelector];
+export const decorators = [
+  withKnobs,
+  withGlobalStyles,
+  withThemeSelector,
+  I18n,
+];
