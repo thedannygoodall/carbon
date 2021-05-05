@@ -3,8 +3,8 @@ import { margin } from "styled-system";
 
 import StyledInput from "../input/input.style";
 import { StyledLabelContainer } from "../label/label.style";
-import InputIconToggleStyle from "../input-icon-toggle/input-icon-toggle.style";
 import BaseTheme from "../../../style/themes/base";
+import InputIconToggleStyle from "../../../__internal__/input-icon-toggle/input-icon-toggle.style";
 
 const StyledTextarea = styled.div`
   ${margin};

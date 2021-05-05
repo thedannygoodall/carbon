@@ -5,9 +5,9 @@ import { mount } from "enzyme";
 
 import { testStyledSystemMargin } from "../../../__spec_helper__/test-utils";
 import DateInput, { defaultDateFormat, BaseDateInput } from "./date.component";
-import InputIconToggle from "../input-icon-toggle";
 import InputPresentationStyle from "../input/input-presentation.style";
 
+import InputIconToggle from "../../../__internal__/input-icon-toggle";
 import DatePicker from "./date-picker.component";
 import Textbox from "../textbox";
 import StyledDateInput from "./date.style";
