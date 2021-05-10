@@ -1,19 +1,20 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
 import Textbox from ".";
-import InputIconToggle from "../../../__internal__/input-icon-toggle";
+import InputIconToggle from "../../__internal__/input-icon-toggle";
 import {
   assertStyleMatch,
   testStyledSystemSpacing,
-} from "../../../__spec_helper__/test-utils";
-import FormField from "../form-field";
-import InputPresentation from "../input/input-presentation.component";
-import StyledValidationIcon from "../../../components/validations/validation-icon.style";
-import StyledPrefix from "./__internal__/prefix.style";
-import Label from "../label";
-import FormFieldStyle from "../form-field/form-field.style";
+} from "../../__spec_helper__/test-utils";
+import FormField from "../../__experimental__/components/form-field";
+import InputPresentation from "../../__experimental__/components/input/input-presentation.component";
 
-jest.mock("../../../utils/helpers/guid", () => () => "mocked-guid");
+import StyledValidationIcon from "../validations/validation-icon.style";
+import StyledPrefix from "./__internal__/prefix.style";
+import Label from "../../__experimental__/components/label";
+import FormFieldStyle from "../../__experimental__/components/form-field/form-field.style";
+
+jest.mock("../../utils/helpers/guid", () => () => "mocked-guid");
 
 describe("Textbox", () => {
   it("renders with InputPresentation and Input and correct props passed to Input", () => {

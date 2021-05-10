@@ -1,8 +1,8 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
 import Fieldset from "./fieldset.component";
-import Textbox from "../textbox";
 import { LegendContainerStyle, FieldsetContentStyle } from "./fieldset.style";
+import Textbox from "../../../components/textbox";
 import {
   assertStyleMatch,
   testStyledSystemMargin,

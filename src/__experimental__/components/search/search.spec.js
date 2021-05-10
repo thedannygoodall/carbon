@@ -12,7 +12,7 @@ import {
 import StyledTextInput from "../input/input-presentation.style";
 import StyledInputIconToggle from "../input-icon-toggle/input-icon-toggle.style";
 import Icon from "../../../components/icon";
-import TextBox from "../textbox";
+import TextBox from "../../../components/textbox";
 import { rootTagTest } from "../../../utils/helpers/tags/tags-specs";
 
 describe("Search", () => {

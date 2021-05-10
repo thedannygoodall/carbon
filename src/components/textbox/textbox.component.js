@@ -1,12 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 import propTypes from "@styled-system/prop-types";
-import { Input, InputPresentation } from "../input";
-import InputIconToggle from "../../../__internal__/input-icon-toggle";
-import FormField from "../form-field";
-import withUniqueIdProps from "../../../utils/helpers/with-unique-id-props";
-import OptionsHelper from "../../../utils/helpers/options-helper";
-import { InputBehaviour } from "../../../__internal__/input-behaviour";
+import {
+  Input,
+  InputPresentation,
+} from "../../__experimental__/components/input";
+import InputIconToggle from "../../__internal__/input-icon-toggle";
+import FormField from "../../__experimental__/components/form-field";
+import withUniqueIdProps from "../../utils/helpers/with-unique-id-props";
+import OptionsHelper from "../../utils/helpers/options-helper/options-helper";
+import { InputBehaviour } from "../../__internal__/input-behaviour";
 import StyledPrefix from "./__internal__/prefix.style";
 
 const Textbox = ({

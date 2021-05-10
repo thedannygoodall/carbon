@@ -9,7 +9,7 @@ import StyledSearch, {
 import tagComponent from "../../../utils/helpers/tags";
 import { filterStyledSystemMarginProps } from "../../../style/utils";
 import Icon from "../../../components/icon";
-import Textbox from "../textbox";
+import Textbox from "../../../components/textbox";
 import Button from "../../../components/button";
 import Events from "../../../utils/helpers/events";
 
