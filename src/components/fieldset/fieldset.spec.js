@@ -1,13 +1,14 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
 import Fieldset from "./fieldset.component";
-import { LegendContainerStyle, FieldsetContentStyle } from "./fieldset.style";
-import Textbox from "../../../components/textbox";
-import {
-  assertStyleMatch,
-  testStyledSystemMargin,
-} from "../../../__spec_helper__/test-utils";
+
 import { noThemeSnapshot } from "../../../__spec_helper__/enzyme-snapshot-helper";
+import Textbox from "../textbox";
+import {
+  LegendContainerStyle,
+  FieldsetContentStyle,
+} from "./fieldset.style";
+import { assertStyleMatch, testStyledSystemMargin } from "../../__spec_helper__/test-utils";
 
 function render(props, renderer = shallow) {
   return renderer(
