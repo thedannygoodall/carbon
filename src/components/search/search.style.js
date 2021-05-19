@@ -1,12 +1,12 @@
 import styled, { css } from "styled-components";
 import { margin } from "styled-system";
-import StyledInputPresentation from "../input/input-presentation.style";
-import StyledInput from "../input/input.style";
-import StyledIcon from "../../../components/icon/icon.style";
-import StyledButton from "../../../components/button/button.style";
-import { baseTheme } from "../../../style/themes";
-import StyledFormField from "../form-field/form-field.style";
-import StyledInputIconToggle from "../input-icon-toggle/input-icon-toggle.style";
+import StyledInputIconToggle from "../../__internal__/input-icon-toggle/input-icon-toggle.style";
+import StyledInputPresentation from "../../__experimental__/components/input/input-presentation.style";
+import StyledInput from "../../__experimental__/components/input/input.style";
+import StyledIcon from "../icon/icon.style";
+import StyledButton from "../button/button.style";
+import { baseTheme } from "../../style/themes";
+import StyledFormField from "../../__experimental__/components/form-field/form-field.style";
 
 const StyledSearch = styled.div`
   ${({

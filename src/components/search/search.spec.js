@@ -1,19 +1,20 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
 import { act } from "react-dom/test-utils";
-import { Input } from "../input";
-import Button from "../../../components/button";
+import { Input } from "../../__experimental__/components/input";
+import Button from "../button";
 import Search from "./search.component";
 import { StyledSearchButton } from "./search.style";
 import {
   assertStyleMatch,
   testStyledSystemMargin,
 } from "../../../__spec_helper__/test-utils";
-import StyledTextInput from "../input/input-presentation.style";
-import StyledInputIconToggle from "../input-icon-toggle/input-icon-toggle.style";
-import Icon from "../../../components/icon";
-import TextBox from "../../../components/textbox";
-import { rootTagTest } from "../../../utils/helpers/tags/tags-specs";
+import StyledInputIconToggle from "../../__internal__/input-icon-toggle/input-icon-toggle.style";
+
+import StyledTextInput from "../../__experimental__/components/input/input-presentation.style";
+import Icon from "../icon";
+import TextBox from "../textbox";
+import { rootTagTest } from "../../utils/helpers/tags/tags-specs";
 
 describe("Search", () => {
   let wrapper, onBlur, onChange, onClick, onKeyDown;
