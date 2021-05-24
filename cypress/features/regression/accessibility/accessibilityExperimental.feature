@@ -9,7 +9,6 @@ Feature: Accessibility tests - Experimental folder
       | component           |
       | checkbox            |
       | date-range          |
-      | date-input          |
       | decimal-input       |
       | groupedcharacter    |
       | number-input        |
@@ -24,7 +23,6 @@ Feature: Accessibility tests - Experimental folder
     Examples:
       | component           |
       | date-range          |
-      | date-input          |
       | decimal-input       |
       | groupedcharacter    |
       | simple-color-picker |
@@ -38,7 +36,6 @@ Feature: Accessibility tests - Experimental folder
     Examples:
       | component           |
       | date-range          |
-      | date-input          |
       | decimal-input       |
       | groupedcharacter    |
       | simple-color-picker |
@@ -52,7 +49,6 @@ Feature: Accessibility tests - Experimental folder
     Examples:
       | component           |
       | date-range          |
-      | date-input          |
       | decimal-input       |
       | groupedcharacter    |
       | simple-color-picker |

@@ -108,6 +108,7 @@ Feature: Accessibility tests - Design System folder
       | Badge             |
       | Batch Selection   |
       | Content           |
+      | Date Input        |
       | Draggable         |
       | Fieldset          |
       | Flat Table        |
@@ -225,6 +226,7 @@ Feature: Accessibility tests - Design System folder
     Then "<component>" component has no accessibility violations
     Examples:
       | component           |
+      | date-input          |
       | textbox             |
       | fieldset            |
 
@@ -234,6 +236,7 @@ Feature: Accessibility tests - Design System folder
     Then "<component>" component has no accessibility violations
     Examples:
       | component           |
+      | date-input          |
       | textbox             |
       | fieldset            |
 
@@ -243,5 +246,6 @@ Feature: Accessibility tests - Design System folder
     Then "<component>" component has no accessibility violations
     Examples:
       | component           |
+      | date-input          |
       | textbox             |
       | fieldset            | 
