@@ -289,11 +289,7 @@ A custom `Button` Component could be passed as the `listActionButton` value.
             label="label"
             value={value}
             onChange={(event) => setValue(event.target.value)}
-            listActionButton={
-              <Button iconType="add" iconPosition="after">
-                Add a New Element
-              </Button>
-            }
+            listActionButton={true}
             onListAction={() => setIsOpen(true)}
           >
             {optionList}

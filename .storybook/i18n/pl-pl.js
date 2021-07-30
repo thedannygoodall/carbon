@@ -55,13 +55,16 @@ export default {
   },
   pager: {
     show: () => "Pokaz",
-    records: (count) => `${count} ${isSingular(count) ? "rzecz" : "rzeczy"}`,
+    records: (count, showNumber = true) => {
+      const noun = isSingular(count) ? "rzecz" : "rzeczy";
+      return showNumber ? `${count} ${noun}` : noun;
+    },
     first: () => "Pierwsza",
     last: () => "Ostatnia",
     next: () => "Następna",
     previous: () => "Poprzednia",
-    pageX: () => "Strona ",
-    ofY: (count) => ` z ${count}`,
+    pageX: () => "Strona",
+    ofY: (count) => `z ${count}`,
   },
   select: {
     actionButtonText: () => "Dodaj nowy element",
