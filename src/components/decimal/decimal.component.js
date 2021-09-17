@@ -1,5 +1,5 @@
 /* eslint-disable react/no-did-update-set-state */
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import styledSystemPropTypes from "@styled-system/prop-types";
 
@@ -11,153 +11,78 @@ import LocaleContext from "../../__internal__/i18n-context";
 const marginPropTypes = filterStyledSystemMarginProps(
   styledSystemPropTypes.space
 );
-class Decimal extends React.Component {
-  static contextType = LocaleContext;
+const Decimal = ({
+  align = "right",
+  defaultValue,
+  precision = 2,
+  inputWidth,
+  readOnly,
+  onChange,
+  onBlur,
+  onKeyPress,
+  id,
+  name,
+  allowEmptyValue = false,
+  required,
+  locale,
+  value,
+  ...rest
+}) => {
+  const context = React.useContext(LocaleContext);
 
-  static maxPrecision = 15;
+  // const maxPrecision = 15;
 
-  emptyValue = this.props.allowEmptyValue ? "" : "0.00";
+  const emptyValue = allowEmptyValue ? "" : "0.00";
 
-  constructor(props, context) {
-    super(props, context);
+  const [isComponentControlled, setIsComponentControlled] = useState(
+    !!defaultValue
+  );
 
-    const isControlled = this.isControlled();
-    const value = isControlled
-      ? this.getSafeValueProp(true)
-      : this.props.defaultValue || this.emptyValue;
+  const [precisionValue] = useState(precision);
 
-    this.state = {
-      value,
-      visibleValue: this.formatValue(value),
-      isControlled,
-    };
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const message =
-      "Input elements should not switch from uncontrolled to controlled (or vice versa). " +
-      "Decide between using a controlled or uncontrolled input element for the lifetime of the component";
-    const isControlled = this.isControlled();
-    invariant(this.state.isControlled === isControlled, message);
-    if (prevProps.precision !== this.props.precision) {
-      // eslint-disable-next-line no-console
-      console.error(
-        "Decimal `precision` prop has changed value. Changing the Decimal `precision` prop has no effect."
-      );
-    }
-    if (isControlled) {
-      const valueProp = this.getSafeValueProp();
-      if (valueProp !== prevState.value) {
-        this.setState({
-          value: valueProp,
-          visibleValue: this.formatValue(valueProp),
-        });
-      }
-    }
-  }
-
-  callOnChange = () => {
-    if (this.props.onChange) {
-      this.props.onChange(this.createEvent());
-    }
-  };
-
-  onChange = (ev) => {
-    const {
-      target: { value },
-    } = ev;
-    this.setState(
-      { value: this.toStandardDecimal(value), visibleValue: value },
-      () => {
-        this.callOnChange();
-      }
-    );
-  };
-
-  onBlur = () => {
-    let shouldCallOnChange = false;
-    this.setState(
-      ({ value, visibleValue }) => {
-        if (!visibleValue) {
-          shouldCallOnChange = value !== this.emptyValue;
-          return {
-            value: this.emptyValue,
-            visibleValue: this.formatValue(this.emptyValue),
-          };
-        }
-        return {
-          visibleValue: this.formatValue(value),
-        };
-      },
-      () => {
-        if (shouldCallOnChange) {
-          this.callOnChange();
-        }
-        if (this.props.onBlur) {
-          this.props.onBlur(this.createEvent());
-        }
-      }
-    );
-  };
-
-  createEvent = () => {
-    const standardVisible = this.toStandardDecimal(this.state.visibleValue);
-    const formattedValue = this.isNaN(standardVisible)
-      ? this.state.visibleValue
-      : this.formatValue(standardVisible);
-    return {
-      target: {
-        name: this.props.name,
-        id: this.props.id,
-        value: {
-          rawValue: this.state.value,
-          formattedValue,
-        },
-      },
-    };
-  };
-
-  /**
-   * Determine if the component is controlled at the time of call
-   */
-  isControlled() {
-    return this.props.value !== undefined;
-  }
-
-  isNaN = (value) => {
-    return Number.isNaN(Number(value));
-  };
-
-  getSafeValueProp = (isInitialValue) => {
-    const { value, allowEmptyValue } = this.props;
-    // We're intentionally preventing the use of number values to help prevent any unintentional rounding issues
-    invariant(
-      typeof value === "string",
-      "Decimal `value` prop must be a string"
-    );
-
-    if (isInitialValue && !allowEmptyValue) {
+  const getSafeValueProp = useCallback(
+    (isInitialValue) => {
+      // const { value, allowEmptyValue } = props;
+      // We're intentionally preventing the use of number values to help prevent any unintentional rounding issues
       invariant(
-        value !== "",
-        "Decimal `value` must not be an empty string. Please use `allowEmptyValue` or `0.00`"
+        typeof value === "string",
+        "Decimal `value` prop must be a string"
       );
-    }
-    return value;
-  };
 
-  removeDelimiters = (value) => {
-    const delimiterMatcher = new RegExp(
-      `[\\${this.getSeparator("group")} ]*`,
-      "g"
-    );
-    return value.replace(delimiterMatcher, "");
-  };
+      if (isInitialValue && !allowEmptyValue) {
+        invariant(
+          value !== "",
+          "Decimal `value` must not be an empty string. Please use `allowEmptyValue` or `0.00`"
+        );
+      }
+      return value;
+    },
+    [allowEmptyValue, value]
+  );
+
+  const computedValue = isComponentControlled
+    ? getSafeValueProp(true)
+    : defaultValue || emptyValue;
+
+  const getSeparator = useCallback(
+    (separatorType) => {
+      const numberWithGroupAndDecimalSeparator = 10000.1;
+      return Intl.NumberFormat(locale || context.locale())
+        .formatToParts(numberWithGroupAndDecimalSeparator)
+        .find((part) => part.type === separatorType).value;
+    },
+    [context, locale]
+  );
+
+  const isNaN = useCallback(() => {
+    return Number.isNaN(Number(value));
+  }, [value]);
 
   /**
    * Format a user defined value
    */
-  formatValue = (value) => {
-    if (this.isNaN(value)) {
+  const formatValue = useCallback(() => {
+    if (isNaN(value)) {
       return value;
     }
 
@@ -167,94 +92,263 @@ class Decimal extends React.Component {
       return value;
     }
 
-    const separator = this.getSeparator("decimal");
+    const separator = getSeparator("decimal");
     const [integer, remainder] = value.split(".");
 
-    const formattedInteger = Intl.NumberFormat(
-      this.props.locale || this.context.locale(),
-      {
-        maximumFractionDigits: 0,
-      }
-    ).format(integer);
+    const formattedInteger = Intl.NumberFormat(locale || context.locale(), {
+      maximumFractionDigits: 0,
+    }).format(integer);
 
     let formattedNumber = formattedInteger;
-    if (remainder && remainder.length > this.props.precision) {
+    if (remainder && remainder.length > precision) {
       formattedNumber += `${separator + remainder}`;
-    } else if (remainder && remainder.length <= this.props.precision) {
+    } else if (remainder && remainder.length <= precision) {
       formattedNumber += `${
-        separator +
-        remainder +
-        "0".repeat(this.props.precision - remainder.length)
+        separator + remainder + "0".repeat(precision - remainder.length)
       }`;
     } else {
       formattedNumber += `${
-        this.props.precision ? separator + "0".repeat(this.props.precision) : ""
+        precision ? separator + "0".repeat(precision) : ""
       }`;
     }
     return formattedNumber;
-  };
+  }, [context, getSeparator, isNaN, locale, precision, value]);
+
+  const [decimalState, setDecimalState] = useState({
+    value,
+    visibleValue: formatValue(computedValue),
+    shouldCallOnBlur: true,
+    shouldCallOnChange: false,
+  });
+
+  /**
+   * Determine if the component is controlled at the time of call
+   */
+  const isControlled = useCallback(() => {
+    return setIsComponentControlled(value !== undefined);
+  }, [value]);
+
+  useEffect(() => {
+    // const message =
+    //   "Input elements should not switch from uncontrolled to controlled (or vice versa). " +
+    //   "Decide between using a controlled or uncontrolled input element for the lifetime of the component";
+
+    // invariant(isComponentControlled.isControlled === isControlled, message);
+    if (precisionValue !== precision) {
+      // eslint-disable-next-line no-console
+      console.error(
+        "Decimal `precision` prop has changed value. Changing the Decimal `precision` prop has no effect."
+      );
+    }
+    if (isComponentControlled) {
+      const valueProp = getSafeValueProp();
+      if (valueProp !== decimalState.value) {
+        setDecimalState((prevState) => ({
+          ...prevState,
+          value: valueProp,
+          visibleValue: formatValue(valueProp),
+        }));
+      }
+    }
+  }, [
+    decimalState.isControlled,
+    decimalState.value,
+    formatValue,
+    getSafeValueProp,
+    isComponentControlled,
+    isControlled,
+    precision,
+    precisionValue,
+  ]);
+
+  const removeDelimiters = useCallback(() => {
+    const delimiterMatcher = new RegExp(`[\\${getSeparator("group")} ]*`, "g");
+    return value.replace(delimiterMatcher, "");
+  }, [getSeparator, value]);
 
   /**
    * Convert raw input to a standard decimal format
    */
-  toStandardDecimal = (i18nValue) => {
-    const valueWithoutNBS =
-      this.getSeparator("group").match(/\s+/) && !i18nValue.match(/\s{2,}/)
-        ? i18nValue.replace(/\s+/g, "")
-        : i18nValue;
-    /* If a value is passed in that is a number but has too many delimiters in succession, we want to handle this
+  const toStandardDecimal = useCallback(
+    (i18nValue) => {
+      const valueWithoutNBS =
+        getSeparator("group").match(/\s+/) && !i18nValue.match(/\s{2,}/)
+          ? i18nValue.replace(/\s+/g, "")
+          : i18nValue;
+      /* If a value is passed in that is a number but has too many delimiters in succession, we want to handle this
     value without formatting it or removing delimiters. We also want to consider that,
     if a value consists of only delimiters, we want to treat that 
     value in the same way as if the value was NaN. We want to pass this value to the 
     formatValue function, before the delimiters can be removed. */
-    const errorsWithDelimiter = new RegExp(
-      `([^A-Za-z0-9]{2,})|(^[^A-Za-z0-9-]+)|([^0-9a-z-,.])|([^0-9-,.]+)|([W,.])$`,
-      "g"
-    );
-    const separator = this.getSeparator("decimal");
-    const separatorRegex = new RegExp(
-      separator === "." ? `\\${separator}` : separator,
-      "g"
-    );
-    if (
-      valueWithoutNBS.match(errorsWithDelimiter) ||
-      (valueWithoutNBS.match(separatorRegex) || []).length > 1
-    ) {
-      return valueWithoutNBS;
-    }
+      const errorsWithDelimiter = new RegExp(
+        `([^A-Za-z0-9]{2,})|(^[^A-Za-z0-9-]+)|([^0-9a-z-,.])|([^0-9-,.]+)|([W,.])$`,
+        "g"
+      );
+      const separator = getSeparator("decimal");
+      const separatorRegex = new RegExp(
+        separator === "." ? `\\${separator}` : separator,
+        "g"
+      );
+      if (
+        valueWithoutNBS.match(errorsWithDelimiter) ||
+        (valueWithoutNBS.match(separatorRegex) || []).length > 1
+      ) {
+        return valueWithoutNBS;
+      }
 
-    const withoutDelimiters = this.removeDelimiters(valueWithoutNBS);
-    return withoutDelimiters.replace(new RegExp(`\\${separator}`, "g"), ".");
+      const withoutDelimiters = removeDelimiters(valueWithoutNBS);
+      return withoutDelimiters.replace(new RegExp(`\\${separator}`, "g"), ".");
+    },
+    [getSeparator, removeDelimiters]
+  );
+
+  const createEvent = useCallback(() => {
+    const standardVisible = toStandardDecimal(decimalState.visibleValue);
+    const formattedValue = isNaN(standardVisible)
+      ? decimalState.visibleValue
+      : formatValue(standardVisible);
+    console.log("FoooFOOO:", formattedValue, value);
+    return {
+      target: {
+        ...(name && { name }),
+        ...(id && { id }),
+        value: {
+          rawValue: decimalState.value,
+          formattedValue,
+        },
+      },
+    };
+  }, [
+    decimalState.value,
+    decimalState.visibleValue,
+    formatValue,
+    id,
+    isNaN,
+    name,
+    toStandardDecimal,
+    value,
+  ]);
+
+  const callOnChange = useCallback(
+    (ev) => {
+      if (onChange) {
+        onChange(ev);
+      }
+    },
+    [onChange]
+  );
+
+  // const [shouldCallOnChange, setShouldCallOnChange] = useState(false);
+  // const [shouldCallOnBlur, setShouldCallOnBlur] = useState(true);
+
+  const handleOnChange = (ev) => {
+    const {
+      target: { value: changeVal },
+    } = ev;
+    console.log("changeVal: ", changeVal, toStandardDecimal(changeVal));
+    setDecimalState((prevState) => ({
+      ...prevState,
+      value: toStandardDecimal(changeVal),
+      visibleValue: changeVal,
+      shouldCallOnChange: true,
+    }));
+    // if (onChange) onChange(createEvent(ev.target.value));
   };
 
-  getSeparator(separatorType) {
-    const numberWithGroupAndDecimalSeparator = 10000.1;
-    return Intl.NumberFormat(this.props.locale || this.context.locale())
-      .formatToParts(numberWithGroupAndDecimalSeparator)
-      .find((part) => part.type === separatorType).value;
-  }
+  const handleOnBlur = () => {
+    if (!decimalState.visibleValue) {
+      // setShouldCallOnChange(true);
+      setDecimalState({
+        value: emptyValue,
+        visibleValue: formatValue(emptyValue),
+        shouldCallOnBlur: true,
+        shouldCallOnChange: true,
+      });
+    } else {
+      setDecimalState((prevState) => ({
+        ...prevState,
+        value,
+        visibleValue: formatValue(value),
+        shouldCallOnBlur: true,
+      }));
+    }
+    // if (ev.target.value) {
+    //   onBlur(createEvent());
+    //   onChange(createEvent());
+    // } else {
+    //   onBlur(createEvent());
+    //   onChange(createEvent());
+    // }
+  };
 
-  render() {
-    const { name, defaultValue, locale, ...rest } = this.props;
-    return (
-      <>
-        <Textbox
-          {...rest}
-          onChange={this.onChange}
-          onBlur={this.onBlur}
-          value={this.state.visibleValue}
-          data-component="decimal"
-        />
-        <input
-          name={name}
-          value={this.toStandardDecimal(this.state.visibleValue)}
-          type="hidden"
-          data-component="hidden-input"
-        />
-      </>
-    );
-  }
-}
+  useEffect(() => {
+    // const createEvent = () => {
+    //   const standardVisible = toStandardDecimal(decimalState.visibleValue);
+    //   const formattedValue = isNaN(standardVisible)
+    //     ? decimalState.visibleValue
+    //     : formatValue(standardVisible);
+    //   // console.log("FoooFOOO:", formattedValue, value);
+    //   return {
+    //     target: {
+    //       ...(name && { name }),
+    //       ...(id && { id }),
+    //       value: {
+    //         rawValue: decimalState.value,
+    //         formattedValue,
+    //       },
+    //     },
+    //   };
+    // };
+
+    if (decimalState.shouldCallOnChange) {
+      console.log("shouldCallOnChange: ", decimalState);
+      setDecimalState((prevState) => ({
+        ...prevState,
+        shouldCallOnChange: false,
+      }));
+      callOnChange(createEvent());
+    }
+    if (decimalState.shouldCallOnBlur) {
+      console.log("shouldCallOnBlur: ", decimalState);
+      setDecimalState((prevState) => ({
+        ...prevState,
+        shouldCallOnBlur: false,
+      }));
+      onBlur(createEvent());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    callOnChange,
+    createEvent,
+    // decimalState.shouldCallOnBlur,
+    // decimalState.shouldCallOnChange,
+    decimalState.value,
+    decimalState.visibleValue,
+    formatValue,
+    onBlur,
+    value,
+  ]);
+
+  return (
+    <>
+      <Textbox
+        align={align}
+        required={required}
+        onChange={handleOnChange}
+        onBlur={handleOnBlur}
+        value={decimalState.visibleValue}
+        data-component="decimal"
+        {...rest}
+      />
+      <input
+        name={name}
+        value={toStandardDecimal(decimalState.visibleValue)}
+        type="hidden"
+        data-component="hidden-input"
+      />
+    </>
+  );
+};
 
 Decimal.propTypes = {
   /** Styled-system margin props */
@@ -324,12 +418,6 @@ Decimal.propTypes = {
    * Override the locale string, default from I18nProvider
    */
   locale: PropTypes.string,
-};
-
-Decimal.defaultProps = {
-  align: "right",
-  precision: 2,
-  allowEmptyValue: false,
 };
 
 export default Decimal;

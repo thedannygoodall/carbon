@@ -37,18 +37,18 @@ import {
 />
 
 export const commonArgs = {
-  align: Decimal.defaultProps.align,
-  precision: Decimal.defaultProps.precision,
+  align: "right",
+  precision: 2,
   autoFocus: false,
   allowEmptyValue: false,
   ...getCommonTextboxArgs(),
 };
 
 export const DecimalStory = (args) => {
-  const [state, setState] = useState("0.00");
+  const [state, setState] = useState("0.05");
   const handleChange = (ev) => {
     action("onChange")(ev);
-    setState(ev.target.value.rawValue);
+    setState(ev.target.value.formattedValue);
   };
   return (
     <Decimal
