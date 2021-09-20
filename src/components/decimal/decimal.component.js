@@ -1,4 +1,3 @@
-/* eslint-disable react/no-did-update-set-state */
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import styledSystemPropTypes from "@styled-system/prop-types";
@@ -30,19 +29,16 @@ const Decimal = ({
 }) => {
   const context = React.useContext(LocaleContext);
 
-  // const maxPrecision = 15;
-
   const emptyValue = allowEmptyValue ? "" : "0.00";
 
-  const [isComponentControlled, setIsComponentControlled] = useState(
-    !!defaultValue
-  );
+  // const [isComponentControlled, setIsComponentControlled] = useState(
+  //   !!defaultValue
+  // );
 
   const [precisionValue] = useState(precision);
 
   const getSafeValueProp = useCallback(
     (isInitialValue) => {
-      // const { value, allowEmptyValue } = props;
       // We're intentionally preventing the use of number values to help prevent any unintentional rounding issues
       invariant(
         typeof value === "string",
@@ -60,10 +56,6 @@ const Decimal = ({
     [allowEmptyValue, value]
   );
 
-  const computedValue = isComponentControlled
-    ? getSafeValueProp(true)
-    : defaultValue || emptyValue;
-
   const getSeparator = useCallback(
     (separatorType) => {
       const numberWithGroupAndDecimalSeparator = 10000.1;
@@ -74,9 +66,9 @@ const Decimal = ({
     [context, locale]
   );
 
-  const isNaN = useCallback(() => {
-    return Number.isNaN(Number(value));
-  }, [value]);
+  const isNaN = useCallback((val) => {
+    return Number.isNaN(Number(val));
+  }, []);
 
   /**
    * Format a user defined value
@@ -114,52 +106,19 @@ const Decimal = ({
     return formattedNumber;
   }, [context, getSeparator, isNaN, locale, precision, value]);
 
-  const [decimalState, setDecimalState] = useState({
-    value,
-    visibleValue: formatValue(computedValue),
-    shouldCallOnBlur: true,
-    shouldCallOnChange: false,
-  });
-
   /**
    * Determine if the component is controlled at the time of call
    */
-  const isControlled = useCallback(() => {
-    return setIsComponentControlled(value !== undefined);
-  }, [value]);
+  const isControlled = defaultValue === undefined;
 
   useEffect(() => {
-    // const message =
-    //   "Input elements should not switch from uncontrolled to controlled (or vice versa). " +
-    //   "Decide between using a controlled or uncontrolled input element for the lifetime of the component";
-
-    // invariant(isComponentControlled.isControlled === isControlled, message);
     if (precisionValue !== precision) {
       // eslint-disable-next-line no-console
       console.error(
         "Decimal `precision` prop has changed value. Changing the Decimal `precision` prop has no effect."
       );
     }
-    if (isComponentControlled) {
-      const valueProp = getSafeValueProp();
-      if (valueProp !== decimalState.value) {
-        setDecimalState((prevState) => ({
-          ...prevState,
-          value: valueProp,
-          visibleValue: formatValue(valueProp),
-        }));
-      }
-    }
-  }, [
-    decimalState.isControlled,
-    decimalState.value,
-    formatValue,
-    getSafeValueProp,
-    isComponentControlled,
-    isControlled,
-    precision,
-    precisionValue,
-  ]);
+  }, [formatValue, getSafeValueProp, precision, precisionValue]);
 
   const removeDelimiters = useCallback(() => {
     const delimiterMatcher = new RegExp(`[\\${getSeparator("group")} ]*`, "g");
@@ -202,132 +161,60 @@ const Decimal = ({
     [getSeparator, removeDelimiters]
   );
 
-  const createEvent = useCallback(() => {
-    const standardVisible = toStandardDecimal(decimalState.visibleValue);
-    const formattedValue = isNaN(standardVisible)
-      ? decimalState.visibleValue
-      : formatValue(standardVisible);
-    console.log("FoooFOOO:", formattedValue, value);
+  const [stateValue, setStateValue] = useState(
+    isNaN(toStandardDecimal(value))
+      ? value
+      : formatValue(toStandardDecimal(value))
+  );
+
+  const buildCustomEvent = (val) => {
     return {
       target: {
         ...(name && { name }),
         ...(id && { id }),
-        value: {
-          rawValue: decimalState.value,
-          formattedValue,
-        },
+        value: { formattedValue: val },
       },
     };
-  }, [
-    decimalState.value,
-    decimalState.visibleValue,
-    formatValue,
-    id,
-    isNaN,
-    name,
-    toStandardDecimal,
-    value,
-  ]);
-
-  const callOnChange = useCallback(
-    (ev) => {
-      if (onChange) {
-        onChange(ev);
-      }
-    },
-    [onChange]
-  );
-
-  // const [shouldCallOnChange, setShouldCallOnChange] = useState(false);
-  // const [shouldCallOnBlur, setShouldCallOnBlur] = useState(true);
-
-  const handleOnChange = (ev) => {
-    const {
-      target: { value: changeVal },
-    } = ev;
-    console.log("changeVal: ", changeVal, toStandardDecimal(changeVal));
-    setDecimalState((prevState) => ({
-      ...prevState,
-      value: toStandardDecimal(changeVal),
-      visibleValue: changeVal,
-      shouldCallOnChange: true,
-    }));
-    // if (onChange) onChange(createEvent(ev.target.value));
   };
 
-  const handleOnBlur = () => {
-    if (!decimalState.visibleValue) {
-      // setShouldCallOnChange(true);
-      setDecimalState({
-        value: emptyValue,
-        visibleValue: formatValue(emptyValue),
-        shouldCallOnBlur: true,
-        shouldCallOnChange: true,
-      });
+  const handleOnChange = (ev) => {
+    if (onChange) onChange(buildCustomEvent(ev.target.value));
+  };
+
+  const hasBlurred = React.useRef(false);
+
+  const handleOnBlur = (ev) => {
+    const { value: updatedValue } = ev.target;
+    let event;
+    hasBlurred.current = true;
+
+    if (updatedValue) {
+      const standardVisible = toStandardDecimal(updatedValue);
+      const formattedValue = isNaN(standardVisible)
+        ? updatedValue
+        : formatValue(standardVisible);
+
+      event = buildCustomEvent(formattedValue);
     } else {
-      setDecimalState((prevState) => ({
-        ...prevState,
-        value,
-        visibleValue: formatValue(value),
-        shouldCallOnBlur: true,
-      }));
+      event = buildCustomEvent(emptyValue);
     }
-    // if (ev.target.value) {
-    //   onBlur(createEvent());
-    //   onChange(createEvent());
-    // } else {
-    //   onBlur(createEvent());
-    //   onChange(createEvent());
-    // }
+
+    if (onBlur) onBlur(event);
+    if (onChange) onChange(event);
   };
 
   useEffect(() => {
-    // const createEvent = () => {
-    //   const standardVisible = toStandardDecimal(decimalState.visibleValue);
-    //   const formattedValue = isNaN(standardVisible)
-    //     ? decimalState.visibleValue
-    //     : formatValue(standardVisible);
-    //   // console.log("FoooFOOO:", formattedValue, value);
-    //   return {
-    //     target: {
-    //       ...(name && { name }),
-    //       ...(id && { id }),
-    //       value: {
-    //         rawValue: decimalState.value,
-    //         formattedValue,
-    //       },
-    //     },
-    //   };
-    // };
+    const checkValue = isControlled ? value : defaultValue;
 
-    if (decimalState.shouldCallOnChange) {
-      console.log("shouldCallOnChange: ", decimalState);
-      setDecimalState((prevState) => ({
-        ...prevState,
-        shouldCallOnChange: false,
-      }));
-      callOnChange(createEvent());
+    if (isControlled && value !== stateValue) {
+      setStateValue(checkValue);
     }
-    if (decimalState.shouldCallOnBlur) {
-      console.log("shouldCallOnBlur: ", decimalState);
-      setDecimalState((prevState) => ({
-        ...prevState,
-        shouldCallOnBlur: false,
-      }));
-      onBlur(createEvent());
+
+    if (!checkValue && hasBlurred.current) {
+      hasBlurred.current = false;
+      setStateValue(emptyValue);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    callOnChange,
-    createEvent,
-    // decimalState.shouldCallOnBlur,
-    // decimalState.shouldCallOnChange,
-    decimalState.value,
-    decimalState.visibleValue,
-    formatValue,
-    onBlur,
-    value,
-  ]);
+  }, [defaultValue, emptyValue, isControlled, stateValue, value]);
 
   return (
     <>
@@ -336,13 +223,13 @@ const Decimal = ({
         required={required}
         onChange={handleOnChange}
         onBlur={handleOnBlur}
-        value={decimalState.visibleValue}
+        value={stateValue}
         data-component="decimal"
         {...rest}
       />
       <input
         name={name}
-        value={toStandardDecimal(decimalState.visibleValue)}
+        value={toStandardDecimal(stateValue)}
         type="hidden"
         data-component="hidden-input"
       />
