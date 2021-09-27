@@ -295,12 +295,8 @@ ActionPopoverMenu. See the prop tables below for the properties surfaced to any 
           <TableCell>Doe</TableCell>
           <TableCell>
             <ActionPopover
-              renderButton={({ "data-element": dataElement }) => (
-                <Link
-                  onClick={() => {}}
-                  tabbable={false}
-                  data-element={dataElement}
-                >
+              renderButton={({ tabIndex, "data-element": dataElement }) => (
+                <Link onClick={() => {}} data-element={dataElement}>
                   More
                 </Link>
               )}
@@ -639,7 +635,7 @@ When sub-menus aligns to the right hand side, the key shortcuts are switiched: p
 is on a item will open a sub-menu if it has one and pressing the "left" key will close it.
 
 <Story
-  name="keyboard access right aligned submenu"
+  name="keyboard navigation right aligned submenu"
   parameters={{ docs: { disable: true } }}
 >
   <div style={{ height: "250px" }}>
@@ -993,18 +989,16 @@ It is possible to utilise the selected and onClick props on the FlatTableRow to 
 
 ## Translation keys
 
-The following keys are available to override the translations for this component by passing in a custom locale object 
+The following keys are available to override the translations for this component by passing in a custom locale object
 to the [i18nProvider](https://carbon.sage.com/?path=/story/documentation-i18n--page).
 
 <TranslationKeysTable
-  translationData={
-    [
-      {
-        name: "actionPopover.ariaLabel",
-        description: "The text for the aria-label attribute",
-        type: "func",
-        returnType: "string"
-      },
-    ]
-  }
+  translationData={[
+    {
+      name: "actionPopover.ariaLabel",
+      description: "The text for the aria-label attribute",
+      type: "func",
+      returnType: "string",
+    },
+  ]}
 />

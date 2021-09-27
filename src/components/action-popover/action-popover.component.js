@@ -8,7 +8,11 @@ import React, {
 import PropTypes from "prop-types";
 import styledSystemPropTypes from "@styled-system/prop-types";
 
-import { MenuButton, ButtonIcon } from "./action-popover.style";
+import {
+  MenuButton,
+  ButtonIcon,
+  StyledButtonIcon,
+} from "./action-popover.style";
 import Events from "../../utils/helpers/events";
 import { filterStyledSystemMarginProps } from "../../style/utils";
 import Popover from "../../__internal__/popover";
@@ -38,7 +42,7 @@ const ActionPopover = ({
   const [isOpen, setOpenState] = useState(false);
   const [focusIndex, setFocusIndex] = useState(0);
   const [guid] = useState(createGuid());
-  const button = useRef();
+  const buttonRef = useRef();
   const menu = useRef();
 
   const itemCount = useMemo(() => {
@@ -83,7 +87,9 @@ const ActionPopover = ({
       setOpen(isOpening);
       if (!isOpening) {
         // Closing the menu should focus the MenuButton
-        button.current.focus();
+        buttonRef.current
+          .querySelector("[data-element='action-popover-menu-button']")
+          .focus();
       }
     },
     [isOpen, setOpen]
@@ -109,7 +115,13 @@ const ActionPopover = ({
     [itemCount, setOpen]
   );
 
-  const focusButton = useCallback(() => button.current.focus(), []);
+  const focusButton = useCallback(
+    () =>
+      buttonRef.current
+        .querySelector("[data-element='action-popover-menu-button']")
+        .focus(),
+    []
+  );
 
   useEffect(() => {
     const handler = ({ target }) => {
@@ -117,7 +129,7 @@ const ActionPopover = ({
       // There will be multiple document click listeners but we cant prevent propagation because it will interfere with
       // other instances on the same page
       if (
-        !button.current.contains(target) &&
+        !buttonRef.current.contains(target) &&
         menu.current &&
         !menu.current.contains(target)
       ) {
@@ -132,21 +144,33 @@ const ActionPopover = ({
     };
   }, [setOpen]);
 
-  const menuButton = () => {
+  const menuButton = (menuID) => {
     if (renderButton) {
       return renderButton({
-        tabIndex: -1,
+        tabIndex: isOpen ? "-1" : "0",
         "data-element": "action-popover-menu-button",
       });
     }
 
-    return <ButtonIcon type="ellipsis_vertical" />;
+    return (
+      <StyledButtonIcon
+        role="button"
+        aria-haspopup="true"
+        aria-label={l.actionPopover.ariaLabel()}
+        aria-controls={menuID}
+        aria-expanded={isOpen}
+        tabIndex={isOpen ? "-1" : "0"}
+        data-element="action-popover-menu-button"
+      >
+        <ButtonIcon type="ellipsis_vertical" />
+      </StyledButtonIcon>
+    );
   };
 
   const parentID = id || `ActionPopoverButton_${guid}`;
   const menuID = `ActionPopoverMenu_${guid}`;
   const menuProps = {
-    button,
+    buttonRef,
     parentID,
     setFocusIndex,
     focusIndex,
@@ -162,22 +186,16 @@ const ActionPopover = ({
     <MenuButton
       id={parentID}
       data-component="action-popover-button"
-      role="button"
-      aria-haspopup="true"
-      aria-label={l.actionPopover.ariaLabel()}
-      aria-controls={menuID}
-      aria-expanded={isOpen}
-      tabIndex={isOpen ? "-1" : "0"}
       {...{ onKeyDown: onButtonKeyDown, onClick: onButtonClick, isOpen }}
-      ref={button}
+      ref={buttonRef}
       {...rest}
     >
-      {menuButton()}
+      {menuButton(menuID, buttonRef)}
       <ActionPopoverContext.Provider
         value={{ setOpenPopover: setOpen, focusButton, isOpenPopover: isOpen }}
       >
         {isOpen && (
-          <Popover placement={mappedPlacement} reference={button}>
+          <Popover placement={mappedPlacement} reference={buttonRef}>
             <ActionPopoverMenu
               data-component="action-popover"
               role="menu"
