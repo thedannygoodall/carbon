@@ -416,7 +416,7 @@ describe("Icon component", () => {
       expect(wrapper.find(Tooltip).props().isVisible).toEqual(false);
     });
 
-    it("sets the tabIndex, ariaLabel and role", () => {
+    it("sets the tabIndex and ariaLabel", () => {
       const wrapper = mount(
         <Icon
           type="home"
@@ -429,20 +429,18 @@ describe("Icon component", () => {
       expect(wrapper.find(StyledIcon).props()).toEqual(
         expect.objectContaining({
           "aria-label": "home",
-          role: "tooltip",
           tabIndex: 0,
         })
       );
     });
 
-    it("does not set the tabIndex and role when the disabled prop is set", () => {
+    it("does not set the tabIndex when the disabled prop is set", () => {
       const wrapper = mount(
         <Icon type="home" tooltipMessage="foo" tooltipVisible disabled />
       );
 
       expect(wrapper.find(StyledIcon).props()).toEqual(
         expect.objectContaining({
-          role: undefined,
           tabIndex: undefined,
         })
       );
