@@ -61,7 +61,7 @@ const Tooltip = React.forwardRef(
             data-element="tooltip-pointer"
             bgColor={bgColor}
           />
-          <div>{content}</div>
+          {content}
         </StyledTooltip>
       );
     };
