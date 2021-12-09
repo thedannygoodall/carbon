@@ -7,9 +7,9 @@ export const TooltipProvider = ({
   children,
   tooltipPosition,
   helpAriaLabel,
-  focusable = true,
+  focusable,
   tooltipVisible,
-  disabled = false,
+  disabled,
 }) => (
   <TooltipContext.Provider
     value={{
