@@ -6,6 +6,7 @@ import {
   StyledDivider,
 } from "../vertical-divider/vertical-divider.style";
 import { baseTheme } from "../../style/themes";
+import { StyledLink } from "../link/link.style";
 
 const StyledMenuWrapper = styled.ul`
   line-height: 40px;
@@ -35,12 +36,6 @@ const StyledMenuWrapper = styled.ul`
       top: -1px;
     }
   }
-
-  ${({ inFullscreenView }) =>
-    inFullscreenView &&
-    css`
-      padding-bottom: 24px;
-    `}
 `;
 
 const StyledMenuItem = styled.li`
@@ -59,6 +54,15 @@ const StyledMenuItem = styled.li`
     css`
       padding-top: 16px;
       padding-bottom: 16px;
+
+      a,
+      ${StyledLink} a,
+      button,
+      ${StyledLink} button,
+      span {
+        width: 100%;
+        box-sizing: border-box;
+      }
     `}
 `;
 

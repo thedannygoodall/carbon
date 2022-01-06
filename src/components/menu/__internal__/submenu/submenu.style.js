@@ -20,14 +20,18 @@ const StyledSubmenuWrapper = styled.div`
 
   ${({ inFullscreenView, menuType, asPassiveItem, theme }) =>
     inFullscreenView &&
-    asPassiveItem &&
     css`
-      ${StyledMenuItemWrapper} {
-        outline: none;
-        color: ${menuType === "light"
-          ? theme.menu.light.title
-          : theme.menu.dark.title};
-      }
+      width: 100%;
+
+      ${asPassiveItem &&
+      css`
+        ${StyledMenuItemWrapper} {
+          outline: none;
+          color: ${menuType === "light"
+            ? theme.menu.light.title
+            : theme.menu.dark.title};
+        }
+      `}
     `}
 `;
 
@@ -51,7 +55,7 @@ const StyledSubmenu = styled.ul`
     ${inFullscreenView &&
     css`
       ${StyledMenuItem} {
-        width: 100vw;
+        width: 100%;
       }
     `}
 
