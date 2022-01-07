@@ -132,7 +132,7 @@ const StyledSubmenu = styled.ul`
           color: ${theme.colors.white};
         }
 
-        ${StyledSearch} [data-component="icon"] {
+        ${StyledSearch} span > [data-component="icon"] {
           color: ${theme.menu.dark.searchIcon};
 
           &:hover {

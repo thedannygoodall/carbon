@@ -1140,7 +1140,7 @@ describe("Submenu component", () => {
         wrapper.find(StyledSubmenu),
         {
           modifier: css`
-            ${StyledMenuItemWrapper} ${StyledSearch} [data-component="icon"]
+            ${StyledMenuItemWrapper} ${StyledSearch} span > [data-component="icon"]
           `,
         }
       );
@@ -1151,7 +1151,7 @@ describe("Submenu component", () => {
         wrapper.find(StyledSubmenu),
         {
           modifier: css`
-            ${StyledMenuItemWrapper} ${StyledSearch} [data-component="icon"]:hover
+            ${StyledMenuItemWrapper} ${StyledSearch} span > [data-component="icon"]:hover
           `,
         }
       );
