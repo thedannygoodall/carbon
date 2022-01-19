@@ -20,7 +20,6 @@ const InputIconToggleStyle = styled.span.attrs(({ onClick }) => ({
 
   ${({ size }) => css`
     margin-right: -${sizes[size].horizontalPadding};
-    margin-left: -${sizes[size].horizontalPadding};
     width: ${sizes[size].height};
   `}
 

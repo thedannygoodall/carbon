@@ -5,6 +5,7 @@ import { createPopper } from "@popperjs/core";
 
 import useResizeObserver from "../../hooks/__internal__/useResizeObserver";
 import Popover from "./popover.component";
+import StyledBackdrop from "./popover.style";
 import { tokensClassName } from "../../style/design-tokens/carbon-scoped-tokens-provider/carbon-scoped-tokens-provider.component";
 
 jest.mock("@popperjs/core");
@@ -77,6 +78,20 @@ describe("Popover", () => {
       child.classList.add(tokensClassName);
 
       expect(removeChildSpy).toHaveBeenCalledWith(child);
+    });
+  });
+
+  describe("disableBackgroundUI", () => {
+    it("renders content as a child of backdrop when background is disabled", () => {
+      const wrapper = mount(<Component disableBackgroundUI />);
+      expect(
+        wrapper.find(StyledBackdrop).find("#popover-children").exists()
+      ).toBe(true);
+    });
+
+    it("does not render backdrop when background is not disabled", () => {
+      const wrapper = mount(<Component />);
+      expect(wrapper.find(StyledBackdrop).exists()).toBe(false);
     });
   });
 

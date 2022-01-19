@@ -10,7 +10,6 @@ import SimpleSelect from "./simple-select.component";
 import Textbox from "../../textbox";
 import Option from "../option/option.component";
 import SelectList from "../select-list/select-list.component";
-import SelectTextbox from "../select-textbox/select-textbox.component";
 import InputIconToggleStyle from "../../../__internal__/input-icon-toggle/input-icon-toggle.style";
 import StyledInput from "../../../__internal__/input/input.style";
 import InputPresentationStyle from "../../../__internal__/input/input-presentation.style";
@@ -63,24 +62,11 @@ describe("SimpleSelect", () => {
   });
 
   describe("disablePortal", () => {
-    it("renders SelectList as a content of positionedChildren prop on Textbox when disablePortal is true", () => {
+    it("renders SelectList with a disablePortal prop assigned", () => {
       const wrapper = renderSelect({ disablePortal: true });
 
-      wrapper.find("input").simulate("click");
-      const positionedChildren = mount(
-        wrapper.find(SelectTextbox).props().positionedChildren
-      );
-      expect(positionedChildren.find(SelectList).exists()).toBe(true);
-    });
-
-    it("renders SelectList as a direct children of StyledSimpleSelect by default", () => {
-      const wrapper = renderSelect();
-
-      wrapper.find("input").simulate("click");
-      expect(wrapper.find(SelectTextbox).props().positionedChildren).toBe(
-        false
-      );
-      expect(wrapper.find(SelectList).exists()).toBe(true);
+      wrapper.find(Textbox).find('[type="dropdown"]').first().simulate("click");
+      expect(wrapper.find(SelectList).props().disablePortal).toBe(true);
     });
   });
 
