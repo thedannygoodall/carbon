@@ -11,6 +11,11 @@ import { tokensClassName } from "../../style/design-tokens/carbon-scoped-tokens-
 jest.mock("@popperjs/core");
 jest.mock("../../hooks/__internal__/useResizeObserver");
 
+jest.mock(
+  "../../style/design-tokens/carbon-scoped-tokens-provider/carbon-scoped-tokens-provider.component",
+  () => ({ tokensClassName: () => "tokens" })
+);
+
 const Component = (props) => {
   const [ref, setRef] = useState({});
 
@@ -38,7 +43,8 @@ describe("Popover", () => {
       expect(createElementSpy).toHaveBeenCalledWith("div");
 
       const child = document.createElement("div");
-      child.classList.add(tokensClassName);
+
+      child.classList.add(tokensClassName());
       const grandchild = document.createElement("div");
       grandchild.id = "popover-children";
       child.appendChild(grandchild);
@@ -57,7 +63,7 @@ describe("Popover", () => {
       mount(<Component />);
 
       const child = document.createElement("div");
-      child.classList.add(tokensClassName);
+      child.classList.add(tokensClassName());
       const grandchild = document.createElement("div");
       grandchild.id = "popover-children";
       child.appendChild(grandchild);
@@ -75,7 +81,7 @@ describe("Popover", () => {
       wrapper.unmount();
 
       const child = document.createElement("div");
-      child.classList.add(tokensClassName);
+      child.classList.add(tokensClassName());
 
       expect(removeChildSpy).toHaveBeenCalledWith(child);
     });

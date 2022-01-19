@@ -65,7 +65,6 @@ const DialogStyle = styled.div`
   }
 
   ${StyledFormContent}.sticky {
-    height: calc(100vh - 210px);
     padding-right: ${HORIZONTAL_PADDING}px;
     padding-left: ${HORIZONTAL_PADDING}px;
     padding-top: 20px;
