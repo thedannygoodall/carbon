@@ -16,6 +16,7 @@ import IconButton from "../icon-button";
 import Icon from "../icon";
 import Form from "../form";
 import { TOP_MARGIN } from "./dialog.config";
+import useLocale from "../../hooks/__internal__/useLocale";
 
 const Dialog = ({
   className,
@@ -36,6 +37,8 @@ const Dialog = ({
   role = "dialog",
   ...rest
 }) => {
+  const locale = useLocale();
+
   const dialogRef = useRef();
   const innerContentRef = useRef();
   const titleRef = useRef();
@@ -108,7 +111,7 @@ const Dialog = ({
     return (
       <IconButton
         data-element="close"
-        aria-label="Close button"
+        aria-label={locale.dialog.ariaLabels.close()}
         onAction={onCancel}
         disabled={disableClose}
       >
