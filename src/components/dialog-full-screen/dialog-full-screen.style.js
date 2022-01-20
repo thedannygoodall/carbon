@@ -11,7 +11,7 @@ import {
 import { StyledForm } from "../form/form.style";
 
 const StyledDialogFullScreen = styled.div`
-  background-color: ${({ theme }) => theme.disabled.input};
+  background-color: var(--colorsUtilityMajor025);
   height: 100%;
   left: 0;
   position: fixed;
