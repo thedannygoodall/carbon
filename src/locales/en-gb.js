@@ -85,6 +85,16 @@ export default {
       javascript: () => "DD/MM/YYYY",
     },
   },
+  dialog: {
+    ariaLabels: {
+      close: () => "Close",
+    },
+  },
+  dialogFullScreen: {
+    ariaLabels: {
+      close: () => "Close",
+    },
+  },
   errors: {
     messages: {
       formSummary:
@@ -139,6 +149,11 @@ export default {
   link: {
     skipLinkLabel: () => "Skip to main content",
   },
+  sidebar: {
+    ariaLabels: {
+      close: () => "Close",
+    },
+  },
   switch: {
     on: () => "ON",
     off: () => "OFF",
@@ -159,6 +174,11 @@ export default {
   },
   tileSelect: {
     deselect: () => "Deselect",
+  },
+  toast: {
+    ariaLabels: {
+      close: () => "Close",
+    },
   },
   wizards: {
     multiStep: {

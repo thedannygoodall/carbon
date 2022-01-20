@@ -20,6 +20,16 @@ interface Locale {
       javascript: () => string;
     };
   };
+  dialog: {
+    ariaLabels: {
+      close: () => string;
+    };
+  };
+  dialogFullScreen: {
+    ariaLabels: {
+      close: () => string;
+    };
+  };
   errors: {
     messages: {
       formSummary: (
@@ -54,6 +64,14 @@ interface Locale {
     placeholder: () => string;
     noResultsForTerm: (term: string) => string;
   };
+  link: {
+    skipLinkLabel: () => string;
+  };
+  sidebar: {
+    ariaLabels: {
+      close: () => string;
+    };
+  };
   switch: {
     on: () => string;
     off: () => string;
@@ -74,6 +92,11 @@ interface Locale {
   };
   tileSelect: {
     deselect: () => string;
+  };
+  toast: {
+    ariaLabels: {
+      close: () => string;
+    };
   };
   wizards: {
     multiStep: {
