@@ -17,7 +17,9 @@ const StyledDialogFullScreen = styled.div`
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: ${({ theme }) => theme.zIndex.fullScreenModal};
+  z-index: ${({ theme }) =>
+    theme.zIndex
+      .fullScreenModal}; // TODO (tokens): implement elevation tokens - FE-4437
   display: flex;
   flex-direction: column;
 
