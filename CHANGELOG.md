@@ -1,3 +1,17 @@
+## [102.17.0](https://github.com/Sage/carbon/compare/v102.16.1...v102.17.0) (2022-01-20)
+
+
+### Features
+
+* **carousel:** describe Carousel using design tokens (FE-4721) ([dee97ea](https://github.com/Sage/carbon/commit/dee97eabb265e73c777269ba9f6c4ed0e0f78a80))
+
+### [102.16.1](https://github.com/Sage/carbon/compare/v102.16.0...v102.16.1) (2022-01-19)
+
+
+### Bug Fixes
+
+* **drawer:** add toggleAnimation call to useEffect listening for changes to expanded prop ([e478562](https://github.com/Sage/carbon/commit/e478562a7724a9d38b0500ba00afd43cd91b9e17)), closes [#4688](https://github.com/Sage/carbon/issues/4688)
+
 ## [102.16.0](https://github.com/Sage/carbon/compare/v102.15.0...v102.16.0) (2022-01-18)
 
 
