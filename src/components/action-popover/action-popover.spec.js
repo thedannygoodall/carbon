@@ -364,18 +364,20 @@ describe("ActionPopover", () => {
       });
 
       it(`${prefix} calls the onClick handler`, () => {
+        jest.runAllTimers();
         expect(onClick).toHaveBeenCalledWith("print");
       });
 
       it(`${prefix} closes the menu`, () => {
         const { menu } = getElements();
+        jest.runAllTimers();
         expect(menu.exists()).toBe(false);
         expect(onClose).toHaveBeenCalledTimes(1);
       });
 
       it(`${prefix} focuses the Menubutton`, () => {
         const { buttonIcon } = getElements();
-
+        jest.runAllTimers();
         expect(buttonIcon).toBeFocused();
       });
     });
@@ -1052,6 +1054,7 @@ describe("ActionPopover", () => {
           submenuItem
             .getDOMNode()
             .dispatchEvent(new MouseEvent("click", { bubbles: true }));
+          jest.runAllTimers();
           const { buttonIcon } = getElements();
           expect(buttonIcon).toBeFocused();
           jest.runAllTimers(); // needed to trigger coverage

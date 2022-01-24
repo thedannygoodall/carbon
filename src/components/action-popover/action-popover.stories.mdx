@@ -25,6 +25,8 @@ import {
   FlatTableCell,
 } from "../flat-table";
 
+import Confirm from "../confirm";
+
 <Meta
   title="Action Popover"
   parameters={{ info: { disable: true }, chromatic: { disable: true } }}
@@ -81,6 +83,67 @@ import {
   .
 
 ## Examples
+
+## TEST_TEST
+
+<Canvas>
+  <Story name="TEST_TEST">
+    {() => {
+    const [isOpen, setIsOpen] = useState(false);
+    return (
+      <>
+      <FlatTable colorTheme="transparent-white">
+        <FlatTableHead>
+          <FlatTableRow>
+            <FlatTableHeader>Devices</FlatTableHeader>
+            <FlatTableHeader>Status</FlatTableHeader>
+            <FlatTableHeader>Action Popover</FlatTableHeader>
+          </FlatTableRow>
+        </FlatTableHead>
+        <FlatTableBody>
+          <FlatTableRow>
+            <FlatTableCell>Mobile Phone</FlatTableCell>
+            <FlatTableCell>Online</FlatTableCell>
+            <FlatTableCell>
+              <ActionPopover
+                renderButton={(props) => (
+                  <ActionPopoverMenuButton {...props}>
+                    Open Actions
+                  </ActionPopoverMenuButton>
+                )}
+              >
+                <ActionPopoverItem
+                  onClick={() => {
+                    setIsOpen(true);
+                  }}
+                >
+                  Open Confirm Dialog
+                </ActionPopoverItem>
+                <ActionPopoverItem icon="settings" onClick={() => {}}>
+                  Do Nothing
+                </ActionPopoverItem>
+              </ActionPopover>
+            </FlatTableCell>
+          </FlatTableRow>
+        </FlatTableBody>
+      </FlatTable>
+      <Confirm
+        title="Are you sure?"
+        subtitle="Subtitle"
+        confirmButtonDestructive
+        cancelButtonDestructive
+        disableConfirm
+        open={isOpen}
+        onConfirm={() => setIsOpen(false)}
+        onCancel={() => setIsOpen(false)}
+      >
+        Content
+      </Confirm>
+    </>
+    )
+  }}
+  </Story>
+</Canvas>
 
 ### Default
 

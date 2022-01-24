@@ -95,11 +95,15 @@ const MenuItem = ({
     (e) => {
       e.stopPropagation();
       if (!disabled) {
+        setTimeout(() => {
+          focusButton();
+        });
+
+        setOpenPopover(false);
+
         if (onClickProp) {
           onClickProp();
         }
-        setOpenPopover(false);
-        focusButton();
       } else {
         ref.current.focus();
         e.preventDefault();
