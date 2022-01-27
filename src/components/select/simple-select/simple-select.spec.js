@@ -156,7 +156,7 @@ describe("SimpleSelect", () => {
     assertStyleMatch(
       {
         cursor: "default",
-        color: "var(--colorsYin065)",
+        color: "var(--colorsActionMinorYin090)",
         textShadow: "none",
       },
       wrapper,
