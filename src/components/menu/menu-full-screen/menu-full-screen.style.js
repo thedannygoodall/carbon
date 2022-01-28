@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 import { baseTheme } from "../../../style/themes";
 import StyledIconButton from "../../icon-button/icon-button.style";
 import Box from "../../box";
+import menuConfigVariants from "../menu.config";
 
 const StyledMenuFullscreen = styled.div`
   position: fixed;
@@ -15,7 +16,7 @@ const StyledMenuFullscreen = styled.div`
   }
 
   ${({ isOpen, menuType, startPosition, theme }) => css`
-    background-color: ${theme.menu[menuType].background};
+    background-color: ${menuConfigVariants[menuType].background};
     z-index: ${theme.zIndex.fullScreenModal};
 
     ${isOpen &&
@@ -50,16 +51,12 @@ const StyledMenuFullscreenHeader = styled.div`
     top: 8px;
   }
 
-  ${({ menuType, theme }) => css`
-    background-color: ${theme.menu[menuType].submenuBackground};
+  ${({ menuType }) => css`
+    background-color: ${menuConfigVariants[menuType].submenuItemBackground};
   `}
 `;
 
 StyledMenuFullscreen.defaultProps = {
-  theme: baseTheme,
-};
-
-StyledMenuFullscreenHeader.defaultProps = {
   theme: baseTheme,
 };
 

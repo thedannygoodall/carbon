@@ -4,8 +4,8 @@ import { StyledLink } from "../../../link/link.style";
 import { StyledMenuItem } from "../../menu.style";
 import StyledMenuItemWrapper from "../../menu-item/menu-item.style";
 import StyledIcon from "../../../icon/icon.style";
-import StyledScrollableBlock from "../../scrollable-block/scrollable-block.style";
 import StyledSearch from "../../../search/search.style";
+import menuConfigVariants from "../../menu.config";
 
 const StyledSubmenuWrapper = styled.div`
   position: relative;
@@ -18,27 +18,26 @@ const StyledSubmenuWrapper = styled.div`
       z-index: ${theme.zIndex.popover};
     `}
 
-  ${({ inFullscreenView, menuType, asPassiveItem, theme }) =>
+  ${({ inFullscreenView, menuType, asPassiveItem }) =>
     inFullscreenView &&
     asPassiveItem &&
     css`
       ${StyledMenuItemWrapper} {
         outline: none;
-        color: ${theme.menu[menuType].title};
+        color: ${menuConfigVariants[menuType].title};
       }
     `}
 `;
 
 const StyledSubmenu = styled.ul`
-  ${({ menuType, theme, submenuDirection, variant, inFullscreenView }) => css`
+  ${({ menuType, submenuDirection, variant, inFullscreenView }) => css`
     ${!inFullscreenView &&
     css`
-      box-shadow: 0 5px 5px 0 rgba(0, 20, 29, 0.2),
-        0 10px 10px 0 rgba(0, 20, 29, 0.1);
+      box-shadow: var(--boxShadow100);
       position: absolute;
-      background: ${variant === "default"
-        ? theme.menu[menuType].submenuBackground
-        : theme.menu[menuType].background};
+      background-color: ${variant === "default"
+        ? menuConfigVariants[menuType].submenuItemBackground
+        : menuConfigVariants[menuType].background};
       a,
       button,
       ${StyledLink} a,
@@ -64,17 +63,6 @@ const StyledSubmenu = styled.ul`
       display: none;
     }
 
-    .carbon-menu-item--has-link:hover {
-      background: ${theme.colors.primary};
-      cursor: pointer;
-      color: white;
-      text-decoration: none;
-
-      [data-component="icon"] {
-        color: white;
-      }
-    }
-
     ${StyledMenuItemWrapper} {
       display: flex;
       align-items: center;
@@ -84,12 +72,23 @@ const StyledSubmenu = styled.ul`
       cursor: pointer;
 
       ${!inFullscreenView &&
-      `background-color: ${theme.menu[menuType].submenuBackground};`}
+      `background-color: ${menuConfigVariants[menuType].submenuItemBackground};`}
 
-      &:hover,
-      &:hover a,
-      a &:hover {
-        color: ${theme.colors.white};
+      a:focus,
+      button:focus {
+        background-color: ${menuConfigVariants[menuType].submenuItemBackground};
+      }
+
+      a:focus,
+      a:hover,
+      button:focus,
+      button:hover {
+        background-color: var(--colorsComponentsMenuAutumnStandard600);
+        color: var(--colorsComponentsMenuYang100);
+
+        [data-component="icon"] {
+          color: var(--colorsComponentsMenuYang100);
+        }
       }
 
       a {
@@ -103,10 +102,10 @@ const StyledSubmenu = styled.ul`
       }
 
       ${StyledSearch} [data-component="icon"] {
-        color: ${theme.menu[menuType].searchIcon};
+        color: var(--colorsUtilityMajor200);
 
         &:hover {
-          color: ${theme.menu[menuType].searchIconHover};
+          color: var(--colorsUtilityMajor150);
         }
       }
     }
@@ -139,26 +138,12 @@ const StyledSubmenu = styled.ul`
       width: 100%;
     }
 
-    > *:not(${StyledMenuItem}):not(${StyledScrollableBlock}) {
-      padding: 8px 15px 10px;
-      background-color: ${theme.colors.white};
-
-      ${menuType === "dark" &&
-      css`
-        background-color: #1b1d21;
-      `}
-    }
-
     ${submenuDirection === "left" &&
     css`
       right: 0;
     `}
   `}
 `;
-
-StyledSubmenu.defaultProps = {
-  theme: baseTheme,
-};
 
 StyledSubmenuWrapper.defaultProps = {
   theme: baseTheme,

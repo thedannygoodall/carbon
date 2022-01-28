@@ -9,7 +9,6 @@ import {
   testStyledSystemFlexBox,
   assertStyleMatch,
 } from "../../../__spec_helper__/test-utils";
-import { baseTheme } from "../../../style/themes";
 import StyledMenuItemWrapper from "./menu-item.style";
 import Submenu from "../__internal__/submenu/submenu.component";
 import SubmenuContext from "../__internal__/submenu/submenu.context";
@@ -19,6 +18,7 @@ import SubmenuBlock from "../submenu-block";
 import StyledIcon from "../../icon/icon.style";
 import Icon from "../../icon/icon.component";
 import { StyledMenuItem } from "../menu.style";
+import menuConfigVariants from "../menu.config";
 
 const events = {
   enter: {
@@ -165,7 +165,7 @@ describe("MenuItem", () => {
 
           assertStyleMatch(
             {
-              backgroundColor: baseTheme.menu[menuType].background,
+              backgroundColor: menuConfigVariants[menuType].background,
             },
             wrapper.find(StyledMenuItemWrapper)
           );
@@ -180,7 +180,24 @@ describe("MenuItem", () => {
 
           assertStyleMatch(
             {
-              backgroundColor: baseTheme.menu[menuType].selected,
+              backgroundColor: menuConfigVariants[menuType].selected,
+            },
+            wrapper.find(StyledMenuItemWrapper)
+          );
+        });
+
+        it("should render correct styles if menu with submenu is `selected", () => {
+          wrapper = mount(
+            <MenuContext.Provider value={{ menuType }}>
+              <MenuItem submenu="submenu" selected>
+                <MenuItem>Item one</MenuItem>
+              </MenuItem>
+            </MenuContext.Provider>
+          );
+
+          assertStyleMatch(
+            {
+              backgroundColor: menuConfigVariants[menuType].submenuSelected,
             },
             wrapper.find(StyledMenuItemWrapper)
           );
@@ -195,7 +212,7 @@ describe("MenuItem", () => {
 
           assertStyleMatch(
             {
-              backgroundColor: baseTheme.menu[menuType].alternate,
+              backgroundColor: menuConfigVariants[menuType].alternate,
             },
             wrapper.find(StyledMenuItemWrapper),
             { modifier: `&&&` }

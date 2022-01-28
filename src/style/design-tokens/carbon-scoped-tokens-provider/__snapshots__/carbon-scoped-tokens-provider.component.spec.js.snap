@@ -3,7 +3,7 @@
 exports[`CarbonScopedTokensProvider should render css variables for all themes 1`] = `
 Array [
   CSSStyleRule {
-    "__ends": 14608,
+    "__ends": 14606,
     "__starts": 45,
     "parentRule": null,
     "parentStyleSheet": CSSStyleSheet {
@@ -70,7 +70,7 @@ Array [
       "--colorsComponentsMenuAutumnParent600": "#001926ff",
       "--colorsComponentsMenuAutumnParent700": "#19475eff",
       "--colorsComponentsMenuAutumnStandard500": "#00324cff",
-      "--colorsComponentsMenuAutumnStandard600": "#007e45ff",
+      "--colorsComponentsMenuAutumnStandard600": "#0073C2",
       "--colorsComponentsMenuAutumnStandard700": "#19475eff",
       "--colorsComponentsMenuSpringChild400": "#ccd6dbff",
       "--colorsComponentsMenuSpringChild500": "#ffffffff",
@@ -1118,8 +1118,8 @@ Array [
     },
   },
   CSSStyleRule {
-    "__ends": 29170,
-    "__starts": 14609,
+    "__ends": 29166,
+    "__starts": 14607,
     "parentRule": null,
     "parentStyleSheet": CSSStyleSheet {
       "cssRules": [Circular],
@@ -1185,7 +1185,7 @@ Array [
       "--colorsComponentsMenuAutumnParent600": "#001926ff",
       "--colorsComponentsMenuAutumnParent700": "#19475eff",
       "--colorsComponentsMenuAutumnStandard500": "#00324cff",
-      "--colorsComponentsMenuAutumnStandard600": "#007e45ff",
+      "--colorsComponentsMenuAutumnStandard600": "#007D5A",
       "--colorsComponentsMenuAutumnStandard700": "#19475eff",
       "--colorsComponentsMenuSpringChild400": "#ccd6dbff",
       "--colorsComponentsMenuSpringChild500": "#ffffffff",
@@ -1859,7 +1859,7 @@ Array [
       "97": "--colorsUtilityDisabled400",
       "98": "--colorsUtilityDisabled500",
       "99": "--colorsUtilityDisabled600",
-      "__starts": 14638,
+      "__starts": 14636,
       "_importants": Object {
         "--borderRadiusCircle": "",
         "--borderWidth000": "",
@@ -2233,8 +2233,8 @@ Array [
     },
   },
   CSSStyleRule {
-    "__ends": 43706,
-    "__starts": 29171,
+    "__ends": 43702,
+    "__starts": 29167,
     "parentRule": null,
     "parentStyleSheet": CSSStyleSheet {
       "cssRules": [Circular],
@@ -2972,7 +2972,7 @@ Array [
       "97": "--colorsUtilityDisabled400",
       "98": "--colorsUtilityDisabled500",
       "99": "--colorsUtilityDisabled600",
-      "__starts": 29200,
+      "__starts": 29196,
       "_importants": Object {
         "--borderRadiusCircle": "",
         "--borderWidth000": "",
@@ -3345,8 +3345,8 @@ Array [
     },
   },
   CSSStyleRule {
-    "__ends": 58271,
-    "__starts": 43707,
+    "__ends": 58267,
+    "__starts": 43703,
     "parentRule": null,
     "parentStyleSheet": CSSStyleSheet {
       "cssRules": [Circular],
@@ -4084,7 +4084,7 @@ Array [
       "97": "--colorsUtilityDisabled400",
       "98": "--colorsUtilityDisabled500",
       "99": "--colorsUtilityDisabled600",
-      "__starts": 43749,
+      "__starts": 43745,
       "_importants": Object {
         "--borderRadiusCircle": "",
         "--borderWidth000": "",
@@ -4457,8 +4457,8 @@ Array [
     },
   },
   CSSStyleRule {
-    "__ends": 58359,
-    "__starts": 58305,
+    "__ends": 58355,
+    "__starts": 58301,
     "parentRule": null,
     "parentStyleSheet": CSSStyleSheet {
       "cssRules": [Circular],
@@ -4470,7 +4470,7 @@ Array [
       "1": "padding",
       "2": "width",
       "3": "display",
-      "__starts": 58312,
+      "__starts": 58308,
       "_importants": Object {
         "display": "",
         "margin": "",
