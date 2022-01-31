@@ -54,32 +54,33 @@ const StyledNavigationBar = styled.nav<StyledNavigationBarProps>`
       ${stickyPosition}: ${stickyOffset}
     `};
 
-  ${({ navigationType, theme }) => css`
+  ${({ navigationType }) => css`
     min-height: 40px;
 
     ${navigationType === "light" &&
     css`
-      background-color: ${theme.navigationBar.light.background};
-      border-bottom: 1px solid ${theme.navigationBar.light.borderBottom};
+      background-color: var(--colorsComponentsMenuSpringStandard500);
+      border-bottom: var(--borderWidth100) solid
+        var(--colorsComponentsMenuSpringChildAlt500);
     `}
 
     ${navigationType === "dark" &&
     css`
-      background-color: ${theme.navigationBar.dark.background};
-      border-bottom: 1px solid ${theme.navigationBar.dark.borderBottom};
-      color: ${theme.colors.white};
+      background-color: var(--colorsComponentsMenuAutumnStandard500);
+      color: var(--colorsComponentsMenuYang100);
     `}
 
     ${navigationType === "black" &&
     css`
-      background-color: ${theme.navigationBar.black.background};
-      color: ${theme.colors.white};
+      background-color: var(--colorsComponentsMenuWinterStandard500);
+      color: var(--colorsComponentsMenuYang100);
     `}
 
     ${navigationType === "white" &&
     css`
-      background-color: ${theme.colors.white};
-      border-bottom: 1px solid ${theme.navigationBar.white.borderBottom};
+      background-color: var(--colorsComponentsMenuSummerStandard500);
+      border-bottom: var(--borderWidth100) solid
+        var(--colorsComponentsMenuSummerChildAlt500);
     `}
   `}
 `;

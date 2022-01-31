@@ -9,7 +9,6 @@ import {
   testStyledSystemPadding,
   testStyledSystemFlexBox,
 } from "../../__spec_helper__/test-utils";
-import { baseTheme } from "../../style/themes";
 import StyledNavigationBar from "./navigation-bar.style";
 
 describe("NavigationBar", () => {
@@ -88,8 +87,9 @@ describe("NavigationBar", () => {
     assertStyleMatch(
       {
         minHeight: "40px",
-        backgroundColor: baseTheme.navigationBar.light.background,
-        borderBottom: `1px solid ${baseTheme.navigationBar.light.borderBottom}`,
+        backgroundColor: "var(--colorsComponentsMenuSpringStandard500)",
+        borderBottom:
+          "var(--borderWidth100) solid var(--colorsComponentsMenuSpringChildAlt500)",
       },
       wrapper
     );
@@ -104,8 +104,8 @@ describe("NavigationBar", () => {
 
     assertStyleMatch(
       {
-        backgroundColor: baseTheme.navigationBar.dark.background,
-        color: baseTheme.colors.white,
+        backgroundColor: "var(--colorsComponentsMenuAutumnStandard500)",
+        color: "var(--colorsComponentsMenuYang100)",
       },
       wrapper
     );
@@ -120,8 +120,9 @@ describe("NavigationBar", () => {
 
     assertStyleMatch(
       {
-        backgroundColor: baseTheme.colors.white,
-        borderBottom: `1px solid ${baseTheme.navigationBar.white.borderBottom}`,
+        backgroundColor: "var(--colorsComponentsMenuSummerStandard500)",
+        borderBottom:
+          "var(--borderWidth100) solid var(--colorsComponentsMenuSummerChildAlt500)",
       },
       wrapper
     );
@@ -136,8 +137,8 @@ describe("NavigationBar", () => {
 
     assertStyleMatch(
       {
-        backgroundColor: baseTheme.navigationBar.black.background,
-        color: baseTheme.colors.white,
+        backgroundColor: "var(--colorsComponentsMenuWinterStandard500)",
+        color: "var(--colorsComponentsMenuYang100)",
       },
       wrapper
     );
