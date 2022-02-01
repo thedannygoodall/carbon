@@ -114,14 +114,28 @@ describe("Drawer", () => {
       expect(drawer.prop("data-component")).toBe(dataAttr);
     });
 
-    it("Drawer Sidebar should render as expected", () => {
-      const wrapper = render();
+    it("Drawer Sidebar should render as expected when not expanded", () => {
+      const wrapper = render({ expanded: false });
+      const { sidebar } = getElements(wrapper);
+      assertStyleMatch(
+        {
+          display: "none",
+          opacity: "0",
+          overflowY: undefined,
+        },
+        sidebar
+      );
+    });
+
+    it("Drawer Sidebar should render as expected when expanded", () => {
+      const wrapper = render({ expanded: true });
       const { sidebar } = getElements(wrapper);
       assertStyleMatch(
         {
           display: "flex",
           flexDirection: "column",
           flex: "1 1 0%",
+          overflowY: "auto",
         },
         sidebar
       );

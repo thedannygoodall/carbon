@@ -189,7 +189,7 @@ const Drawer = ({
           id={sidebarId}
           isExpanded={isExpanded}
           role="navigation"
-          overflowY="auto"
+          overflowY={isExpanded ? "auto" : undefined}
           scrollVariant="light"
           ref={scrollableContentRef}
         >
