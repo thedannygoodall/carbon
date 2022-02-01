@@ -72,24 +72,25 @@ const StyledSubmenu = styled.ul`
       cursor: pointer;
 
       ${!inFullscreenView &&
-      `background-color: ${menuConfigVariants[menuType].submenuItemBackground};`}
-
-      a:focus,
-      button:focus {
+      css`
         background-color: ${menuConfigVariants[menuType].submenuItemBackground};
-      }
 
-      a:focus,
-      a:hover,
-      button:focus,
-      button:hover {
-        background-color: var(--colorsComponentsMenuAutumnStandard600);
-        color: var(--colorsComponentsMenuYang100);
-
-        [data-component="icon"] {
-          color: var(--colorsComponentsMenuYang100);
+        a:focus,
+        button:focus {
+          background-color: ${menuConfigVariants[menuType]
+            .submenuItemBackground};
         }
-      }
+
+        a:hover,
+        button:hover {
+          background-color: var(--colorsComponentsMenuAutumnStandard600);
+          color: var(--colorsComponentsMenuYang100);
+
+          [data-component="icon"] {
+            color: var(--colorsComponentsMenuYang100);
+          }
+        }
+      `}
 
       a {
         text-decoration: none;

@@ -115,32 +115,35 @@ describe("MenuFullscreen", () => {
       }
     );
 
-    it.each(["light", "white", "dark", "black"])(
+    describe.each(["light", "white", "dark", "black"])(
       "applies the expected styling when `menuType` is %s",
       (menuType) => {
-        wrapper = render({ menuType });
-        assertStyleMatch(
-          {
-            backgroundColor: menuConfigVariants[menuType].background,
-          },
-          wrapper
-        );
+        beforeEach(() => {
+          wrapper = render({ menuType });
+        });
 
-        assertStyleMatch(
-          {
-            backgroundColor: menuConfigVariants[menuType].submenuItemBackground,
-          },
-          wrapper.find(StyledMenuFullscreenHeader)
-        );
+        it("it renders a correct item background", () => {
+          assertStyleMatch(
+            {
+              backgroundColor:
+                menuConfigVariants[menuType].submenuItemBackground,
+            },
+            wrapper.find(StyledMenuFullscreenHeader)
+          );
+        });
 
-        const iconColors = {
-          light: undefined,
-          dark: "#FFFFFF",
-          white: undefined,
-          black: "#FFFFFF",
-        };
+        it("it renders a correct icon color", () => {
+          const iconColors = {
+            light: undefined,
+            dark: "#FFFFFF",
+            white: undefined,
+            black: "#FFFFFF",
+          };
 
-        expect(wrapper.find(Icon).prop("color")).toEqual(iconColors[menuType]);
+          expect(wrapper.find(Icon).prop("color")).toEqual(
+            iconColors[menuType]
+          );
+        });
       }
     );
 

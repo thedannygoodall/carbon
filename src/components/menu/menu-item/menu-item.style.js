@@ -52,9 +52,7 @@ const StyledMenuItemWrapper = styled.a`
         position: relative;
       }
 
-      a:focus,
       a:hover,
-      button:focus,
       button:hover {
         background-color: var(--colorsComponentsMenuAutumnStandard600);
         color: var(--colorsComponentsMenuYang100);
@@ -104,9 +102,7 @@ const StyledMenuItemWrapper = styled.a`
         background-color: ${menuConfigVariants[menuType].selected};
       }
 
-      a:focus,
       a:hover,
-      button:focus,
       button:hover {
         background-color: var(--colorsComponentsMenuAutumnStandard600);
       }
@@ -150,9 +146,7 @@ const StyledMenuItemWrapper = styled.a`
         `}
       }
 
-      a:focus,
       a:hover,
-      button:focus,
       button:hover {
         ${!(href || clickToOpen) &&
         css`
@@ -176,9 +170,7 @@ const StyledMenuItemWrapper = styled.a`
           background-color: ${menuConfigVariants[menuType].submenuSelected};
         }
 
-        a:focus,
         a:hover,
-        button:focus,
         button:hover {
           background-color: var(--colorsComponentsMenuAutumnStandard600);
         }

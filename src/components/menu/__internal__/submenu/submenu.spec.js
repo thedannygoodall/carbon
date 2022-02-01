@@ -1065,6 +1065,50 @@ describe("Submenu component", () => {
           wrapper.find(StyledSubmenu)
         );
       });
+
+      it.each([
+        ["button", "focus"],
+        ["a", "focus"],
+      ])("applies the expected styling for %p on %s", (el, pseudo) => {
+        renderWrapper("default");
+        assertStyleMatch(
+          {
+            backgroundColor: menuConfigVariants[menuType].submenuItemBackground,
+          },
+          wrapper.find(StyledSubmenu),
+          { modifier: `${StyledMenuItemWrapper} ${el}:${pseudo}` }
+        );
+      });
+
+      describe.each([
+        ["button", "hover"],
+        ["a", "hover"],
+      ])("applies the expected styling for %p on %s", (el, pseudo) => {
+        it("renders correct background and color", () => {
+          renderWrapper("default");
+          assertStyleMatch(
+            {
+              backgroundColor: "var(--colorsComponentsMenuAutumnStandard600)",
+              color: "var(--colorsComponentsMenuYang100)",
+            },
+            wrapper.find(StyledSubmenu),
+            { modifier: `${StyledMenuItemWrapper} ${el}:${pseudo}` }
+          );
+        });
+
+        it("renders correct icon color", () => {
+          renderWrapper("default");
+          assertStyleMatch(
+            {
+              color: "var(--colorsComponentsMenuYang100)",
+            },
+            wrapper.find(StyledSubmenu),
+            {
+              modifier: `${StyledMenuItemWrapper} ${el}:${pseudo} [data-component="icon"]`,
+            }
+          );
+        });
+      });
     }
   );
 
