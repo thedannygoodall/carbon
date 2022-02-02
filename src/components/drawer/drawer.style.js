@@ -1,5 +1,4 @@
 import styled, { css, keyframes } from "styled-components";
-import baseTheme from "../../style/themes/base";
 import StyledTabs from "../tabs/tabs.style";
 import Box from "../box";
 import StyledStickyFooter from "../../__internal__/sticky-footer/sticky-footer.style";
@@ -108,9 +107,8 @@ const StyledDrawerContent = styled.div`
   height: auto;
   position: relative;
   overflow: auto;
-  border-right: 1px solid ${({ theme }) => theme.drawer.divider};
-  background-color: ${({ backgroundColor, theme }) =>
-    backgroundColor || theme.drawer.background}};
+  background-color: ${({ backgroundColor }) =>
+    backgroundColor || "var(--colorsUtilityMajor040)"};
 
   &.open {
     min-width: 52px;
@@ -124,12 +122,13 @@ const StyledDrawerContent = styled.div`
 
   &.opening {
     animation: ${({ animationDuration, expandedWidth }) => css`
-      ${drawerOpen(expandedWidth)} ${animationDuration}
-    `} ease-in-out;
+        ${drawerOpen(expandedWidth)} ${animationDuration}
+      `}
+      ease-in-out;
 
     ${StyledDrawerSidebar}, ${StyledSidebarTitle} {
-      animation: ${sidebarVisible} ${({ animationDuration }) =>
-  animationDuration} ease-in-out;
+      animation: ${sidebarVisible}
+        ${({ animationDuration }) => animationDuration} ease-in-out;
     }
   }
 
@@ -143,18 +142,19 @@ const StyledDrawerContent = styled.div`
 
   &.closing {
     animation: ${({ animationDuration, expandedWidth }) => css`
-      ${drawerClose(expandedWidth)} ${animationDuration}
-    `} ease-in-out;
+        ${drawerClose(expandedWidth)} ${animationDuration}
+      `}
+      ease-in-out;
 
     ${StyledDrawerSidebar}, ${StyledSidebarTitle}, ${StyledStickyFooter} {
-      animation: ${sidebarHidden} ${({ animationDuration }) =>
-  animationDuration} ease-in-out;
+      animation: ${sidebarHidden}
+        ${({ animationDuration }) => animationDuration} ease-in-out;
     }
   }
 `;
 
 const StyledButton = styled.button.attrs({ type: "button" })`
-  ${({ animationDuration, isExpanded, theme }) => css`
+  ${({ animationDuration, isExpanded }) => css`
     position: absolute;
     top: 24px;
     right: 8px;
@@ -168,7 +168,7 @@ const StyledButton = styled.button.attrs({ type: "button" })`
     animation: ${buttonClose} ${animationDuration} ease-in-out;
 
     &:focus {
-      outline: 3px solid ${theme.colors.focus};
+      outline: 3px solid var(--colorsSemanticFocus500);
     }
 
     &:hover {
@@ -187,14 +187,6 @@ const StyledDrawerWrapper = styled.div`
   display: flex;
   height: ${({ height }) => height};
 `;
-
-StyledDrawerContent.defaultProps = {
-  theme: baseTheme,
-};
-
-StyledButton.defaultProps = {
-  theme: baseTheme,
-};
 
 export {
   StyledSidebarHeader,

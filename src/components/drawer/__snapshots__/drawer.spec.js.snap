@@ -10,7 +10,6 @@ exports[`Drawer uncontrolled matches snapshot 1`] = `
     aria-expanded="true"
     className="open"
     expandedWidth="20%"
-    theme="[ theme object ]"
   >
     <Styled(styled.div)
       hasControls={false}

@@ -127,6 +127,17 @@ describe("Drawer", () => {
       );
     });
 
+    it("Drawer Content has default background color when not provided as prop", () => {
+      const wrapper = render();
+      const { content } = getElements(wrapper);
+      assertStyleMatch(
+        {
+          backgroundColor: "var(--colorsUtilityMajor040)",
+        },
+        content
+      );
+    });
+
     it("Drawer Content should render as expected", () => {
       const wrapper = render();
       const { children } = getElements(wrapper);
