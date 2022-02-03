@@ -1,5 +1,5 @@
-import styled, { css } from "styled-components";
 import { margin } from "styled-system";
+import styled, { css } from "styled-components";
 
 import StyledInputIconToggle from "../../__internal__/input-icon-toggle/input-icon-toggle.style";
 import StyledInputPresentation from "../../__internal__/input/input-presentation.style";
@@ -23,6 +23,7 @@ const StyledSearch = styled.div`
     const variantColor = darkVariant
       ? `${theme.search.darkVariantBorder}`
       : `${theme.search.passive}`;
+
     const iconColor =
       darkVariant &&
       ((searchHasValue && isFocused) ||
@@ -38,14 +39,13 @@ const StyledSearch = styled.div`
       font-size: 14px;
       font-weight: 700;
       :hover {
-        border-bottom-color: ${theme.search.active};
+        border-bottom-color: var(--colorsActionMinor500);
         cursor: pointer;
       }
       ${(isFocused || searchHasValue) &&
       css`
         border-color: transparent;
         transition: background 0.2s ease;
-        color: ${theme.icon.defaultHover};
         :hover {
           border-color: transparent;
         }
@@ -54,7 +54,6 @@ const StyledSearch = styled.div`
       !searchIsActive &&
       css`
         border-color: transparent;
-        color: ${theme.icon.defaultHover};
       `}
       ${!isFocused &&
       searchHasValue &&
@@ -62,7 +61,7 @@ const StyledSearch = styled.div`
       css`
         border-bottom: 2px solid ${variantColor};
         :hover {
-          border-bottom-color: ${theme.search.active};
+          border-bottom-color: var(--colorsActionMinor500);
           cursor: pointer;
         }
       `}
@@ -77,6 +76,10 @@ const StyledSearch = styled.div`
           }
           ::placeholder {
             color: ${theme.search.darkVariantPlaceholder};
+            color: var(
+              --colorsUtilityYin030
+            ); // TODO: WTF why this is not working
+            color: pink;
           }
         `}
 
@@ -87,18 +90,21 @@ const StyledSearch = styled.div`
           !showSearchButton &&
           css`
             color: ${theme.search.darkVariantText};
+            color: red;
+            color: var(--colorsUtilityYang100);
           `}
           ${!isFocused &&
           !searchHasValue &&
           css`
             color: ${theme.search.darkVariantPlaceholder};
+            color: pink;
           `}
         `}
       }
 
       ${StyledInputPresentation} {
         background-color: ${searchHasValue || isFocused
-          ? `${theme.colors.white}`
+          ? "var(--colorsUtilityYang100)"
           : "transparent"};
         flex: 1;
         font-size: 14px;
@@ -110,7 +116,6 @@ const StyledSearch = styled.div`
         !searchHasValue &&
         css`
           border: 1px solid transparent;
-          color: ${theme.icon.default};
         `}
         ${!isFocused &&
         searchHasValue &&
@@ -119,7 +124,7 @@ const StyledSearch = styled.div`
           border: 1px solid transparent;
           background-color: ${darkVariant
             ? "transparent"
-            : `${theme.colors.white}`};
+            : "var(--colorsUtilityYang100)"};
         `}
       }
 
@@ -127,18 +132,13 @@ const StyledSearch = styled.div`
         flex: 1;
         z-index: ${theme.zIndex.smallOverlay};
       }
-      ${StyledButton} {
-        background-color: ${theme.search.button};
-        cursor: pointer;
-        color: ${theme.colors.white};
-      }
       ${StyledIcon} {
         color: ${iconColor
-          ? `${theme.search.icon}`
-          : `${theme.search.iconDarkVariant}`};
+          ? "var(--colorsUtilityMajor400)"
+          : "var(--colorsUtilityMajor200)"};
         ${!darkVariant &&
         css`
-          color: ${theme.search.icon};
+          color: "var(--colorsUtilityMajor400)";
         `}
 
         width: 20px;
@@ -146,11 +146,11 @@ const StyledSearch = styled.div`
         cursor: pointer;
         :hover {
           color: ${iconColor
-            ? `${theme.search.iconHover}`
-            : `${theme.search.iconDarkVariantHover}`};
+            ? "var(--colorsUtilityMajor500)"
+            : "var(--colorsUtilityMajor100)"};
           ${!darkVariant &&
           css`
-            color: ${theme.search.iconHover};
+            color: var(--colorsUtilityMajor500);
           `}
         }
       }
@@ -171,15 +171,13 @@ export default StyledSearch;
 export const StyledSearchButton = styled.div`
   display: inline-flex;
   border-bottom: none;
-  &&& ${StyledButton} {
-    ${({ theme }) => css`
-      background-color: ${theme.colors.primary};
-      border-color: ${theme.colors.primary};
-      :hover {
-        background: ${theme.colors.secondary};
-        border-color: ${theme.colors.secondary};
-      }
-    `}
+  & ${StyledButton} {
+    background-color: var(--colorsActionMajor500);
+    border-color: var(--colorsActionMajorTransparent);
+    :hover {
+      background: var(--colorsActionMajor600);
+      border-color: var(--colorsActionMajorTransparent);
+    }
 
     width: 40px;
     margin: 0px 0px;
